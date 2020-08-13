@@ -1,10 +1,9 @@
 import React from 'react';
 import editButton from '../images/editbutton.svg';
-import api from '../utils/Api.js';
+import api from '../utils/utils.js';
 import Card from './Card.js';
 
 function Main(props) {
-
   const [userName, setUserName] = React.useState();
   const [userDescription, setUserDescription] = React.useState();
   const [userAvatar, setUserAvatar] = React.useState();
@@ -56,7 +55,8 @@ function Main(props) {
       </section>
       <section className="elements">
         {cards.map((card) => (
-          <Card card={card}
+          <Card
+            card={card}
             onCardClick={props.onCardClick}
             _id={card.id}
             link={card.link}

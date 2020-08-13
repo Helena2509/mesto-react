@@ -23,7 +23,6 @@ function App() {
   function handleCardClick(selectedCard) {
     setSelectedCard(selectedCard);
     setIsImagePopupOpen(!isImagePopupOpen);
-    console.log(selectedCard);
   }
 
   function handleEditAvatarClick() {
@@ -48,13 +47,16 @@ function App() {
   return (
     <div className="page">
       <Header />
+
       <Main
         onEditAvatar={handleEditAvatarClick}
         onEditProfile={handleEditProfileClick}
         onAddPlace={handleAddPlaceClick}
         onCardClick={handleCardClick}
       />
+
       <Footer />
+
       <PopupWithForm
         name="profile"
         title="Редактировать профиль"
@@ -94,6 +96,7 @@ function App() {
           </button>
         </fieldset>
       </PopupWithForm>
+
       <PopupWithForm
         name="place"
         title="Новое место"
@@ -128,6 +131,7 @@ function App() {
           </button>
         </fieldset>
       </PopupWithForm>
+
       <PopupWithForm
         name="avatar"
         title="Обновить аватар"
@@ -150,8 +154,9 @@ function App() {
           </button>
         </fieldset>
       </PopupWithForm>
+
       <PopupWithImage
-        name={selectedCard}
+        card={selectedCard}
         isOpen={isImagePopupOpen}
         onClose={closeAllPopups}
       />
