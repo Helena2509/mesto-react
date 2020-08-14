@@ -19,7 +19,7 @@ function Card(props) {
           <p className="element__like-number">{props.likes}</p>
         </div>
       </div>
-      <button type="button" className="element__delete-button"></button>
+      <button type="button" className="element__delete-button" onClick={props.handleDelete}></button>
     </div>
   );
 }

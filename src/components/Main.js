@@ -57,6 +57,7 @@ function Main(props) {
         {cards.map((card) => (
           <Card
             card={card}
+            handleDelete={props.handleDelete}
             onCardClick={props.onCardClick}
             _id={card.id}
             link={card.link}

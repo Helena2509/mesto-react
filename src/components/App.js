@@ -1,9 +1,9 @@
 import React from 'react';
-import Header from './components/Header.js';
-import Main from './components/Main.js';
-import Footer from './components/Footer.js';
-import PopupWithForm from './components/PopupWithForm.js';
-import PopupWithImage from './components/PopupWithImage.js';
+import Header from './Header.js';
+import Main from './Main.js';
+import Footer from './Footer.js';
+import PopupWithForm from './PopupWithForm.js';
+import PopupWithImage from './PopupWithImage.js';
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(
@@ -18,7 +18,13 @@ function App() {
 
   const [isImagePopupOpen, setIsImagePopupOpen] = React.useState(false);
 
+  const [isDeletePopupOpen, setIisDeletePopupOpen] = React.useState(false);
+
   const [selectedCard, setSelectedCard] = React.useState();
+
+  function handleDeleteClick() {
+    setIisDeletePopupOpen(!isDeletePopupOpen);
+  }
 
   function handleCardClick(selectedCard) {
     setSelectedCard(selectedCard);
@@ -42,6 +48,7 @@ function App() {
     setIsEditAvatarPopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsImagePopupOpen(false);
+    setIisDeletePopupOpen(false);
   }
 
   return (
@@ -52,6 +59,7 @@ function App() {
         onEditAvatar={handleEditAvatarClick}
         onEditProfile={handleEditProfileClick}
         onAddPlace={handleAddPlaceClick}
+        handleDelete={handleDeleteClick}
         onCardClick={handleCardClick}
       />
 
@@ -69,6 +77,7 @@ function App() {
               type="text"
               className="form__input form__input_name"
               id="name-input"
+              placeholder="Имя"
               required
               minLength="2"
               maxLength="40"
@@ -80,6 +89,7 @@ function App() {
               type="text"
               className="form__input form__input_description form__input_type_bottom"
               id="description-input"
+              placeholder="Занятие"
               required
               minLength="2"
               maxLength="200"
@@ -153,6 +163,12 @@ function App() {
             Сохранить
           </button>
         </fieldset>
+      </PopupWithForm>
+
+      <PopupWithForm name="dalete" title="Вы уверены?" isOpen={isDeletePopupOpen} onClose={closeAllPopups}>
+      <button className="form__submit-button form__submit-button_type_delete">
+        Да
+      </button>
       </PopupWithForm>
 
       <PopupWithImage
