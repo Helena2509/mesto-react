@@ -24,6 +24,10 @@
   .profile__image {
     margin: 0 auto 15px;
   }
+  .profile__container {
+    position: relative;
+    margin: 0 auto;
+  }
 }
 
 .profile__image-back {

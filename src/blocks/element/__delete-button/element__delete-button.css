@@ -18,3 +18,7 @@
 .element__delete-button:hover {
   opacity: .8;
 }
+
+.element__delete-button_hidden {
+  display: none;
+}
