@@ -3,4 +3,4 @@
 
 ### В данном проекте используются возможности React'a.
 
-#####      Ссылка на GitPages(https://helena2509.github.io/mesto-react/index.html)
+#####      [Ссылка на GitPages](https://helena2509.github.io/mesto-react/index.html)
