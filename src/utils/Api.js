@@ -26,6 +26,8 @@ export default class Api {
         name: name,
         link: link,
       }),
+    }).then((res) => {
+      if (res.ok) return res.json();
     }).catch((err) => {
       console.log(err);
     });
@@ -53,6 +55,8 @@ export default class Api {
         name: name,
         about: desc,
       }),
+    }).then((res) => {
+      if (res.ok) return res.json();
     }).catch((err) => {
       console.log(err);
     });
@@ -65,7 +69,10 @@ export default class Api {
       body: JSON.stringify({
         avatar: avalink,
       }),
-    }).catch((err) => {
+    }).then((res) => {
+      if (res.ok) return res.json();
+    })
+    .catch((err) => {
       console.log(err);
     });
   }

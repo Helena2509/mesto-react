@@ -2,12 +2,11 @@ import React from 'react';
 import Header from './Header.js';
 import Main from './Main.js';
 import Footer from './Footer.js';
-import PopupWithForm from './PopupWithForm.js';
 import PopupWithImage from './PopupWithImage.js';
 import EditProfilePopup from './EditProfilePopup.js';
 import EditAvatarPopup from './EditAvatarPopup.js';
 import AddPlacePopup from './AddPlacePopup.js';
-import { CurrentUserContext } from './CurrentUserContext.js';
+import { CurrentUserContext } from '../context/CurrentUserContext.js';
 import api from '../utils/utils.js';
 
 function App() {
@@ -16,11 +15,10 @@ function App() {
   const [cards, setCards] = React.useState([]);
 
   React.useEffect(() => {
-    api.getUserInfo().then((result) => {
-      setCurrentUser(result);
-    });
-    api.getInitialCards().then((result) => {
-      setCards(result);
+    Promise.all([api.getUserInfo(), api.getInitialCards()])
+    .then(([user, cards]) => {
+      setCurrentUser(user);
+      setCards(cards);
     });
   }, []);
 
@@ -64,30 +62,27 @@ function App() {
   const [selectedCard, setSelectedCard] = React.useState();
 
   function handleUpdateUser(name, desc) {
-    api.editUserInfo(name, desc).finally(() => {
+    api.editUserInfo(name, desc)
+    .then((res) => {
+      setCurrentUser(res);
       closeAllPopups();
-      api.getUserInfo().then((result) => {
-        setCurrentUser(result);
-      });
-    });
+    })
   }
 
   function handleAddPlaceSubmit(title, link) {
-    api.addCard(title, link).finally(() => {
+    api.addCard(title, link)
+    .then(newCard => {
+      setCards([newCard, ...cards]);
       closeAllPopups();
-      api.getInitialCards().then((result) => {
-        setCards(result);
-      });
-    });
+    })
   }
 
-  function handleUpdateAvatar(ava) {
-    api.editAvatarInfo(ava).finally(() => {
+  function handleUpdateAvatar(avatar) {
+    api.editAvatarInfo(avatar)
+    .then((res) => {
+      setCurrentUser(res);
       closeAllPopups();
-      api.getUserInfo().then((result) => {
-        setCurrentUser(result);
-      });
-    });
+    })
   }
 
   function handleDeleteClick() {
@@ -116,7 +111,28 @@ function App() {
     setIsEditAvatarPopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsImagePopupOpen(false);
-    setIisDeletePopupOpen(false);
+  }
+
+  function closeAllPopupsEscOverlay () {
+    function handleEscClose(evt) {
+      if (evt.key === "Escape") {
+        closeAllPopups();
+      }
+    }
+
+    function closeByClick(evt) {
+      if (evt.target.classList.contains("popup__overlay-black")) {
+        closeAllPopups();
+      }
+    }
+
+    document.addEventListener("keydown", handleEscClose);
+    document.addEventListener("click", closeByClick);
+
+    return () => {
+      document.removeEventListener("keydown", handleEscClose);
+      document.removeEventListener("click", closeByClick);
+    };
   }
 
   return (
@@ -141,24 +157,28 @@ function App() {
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
           onAddPlace={handleAddPlaceSubmit}
+          closeEscOverlay={closeAllPopupsEscOverlay}
         />
 
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
           onUpdateUser={handleUpdateUser}
+          closeEscOverlay={closeAllPopupsEscOverlay}
         />
 
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
           onUpdateAvatar={handleUpdateAvatar}
+          closeEscOverlay={closeAllPopupsEscOverlay}
         />
 
         <PopupWithImage
           card={selectedCard}
           isOpen={isImagePopupOpen}
           onClose={closeAllPopups}
+          closeEscOverlay={closeAllPopupsEscOverlay}
         />
       </CurrentUserContext.Provider>
     </div>

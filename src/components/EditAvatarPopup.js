@@ -1,10 +1,7 @@
 import React from 'react';
 import PopupWithForm from './PopupWithForm.js';
-import { CurrentUserContext } from './CurrentUserContext';
 
 function EditAvatarPopup(props) {
-  const currentUser = React.useContext(CurrentUserContext);
-
   const avatar = React.useRef('');
 
   function handleSubmit(e) {
@@ -21,6 +18,7 @@ function EditAvatarPopup(props) {
         isOpen={props.isOpen}
         onClose={props.onClose}
         handleSubmit={handleSubmit}
+        closeEscOverlay={props.closeEscOverlay}
       >
         <fieldset className="form__set">
           <label className="form__field">

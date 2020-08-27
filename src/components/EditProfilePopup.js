@@ -1,6 +1,6 @@
 import React from 'react';
 import PopupWithForm from './PopupWithForm.js';
-import { CurrentUserContext } from './CurrentUserContext';
+import { CurrentUserContext } from '../context/CurrentUserContext.js';
 
 function EditProfilePopup(props) {
   const currentUser = React.useContext(CurrentUserContext);
@@ -36,6 +36,7 @@ function EditProfilePopup(props) {
         isOpen={props.isOpen}
         onClose={props.onClose}
         handleSubmit={handleSubmit}
+        closeEscOverlay={props.closeEscOverlay}
       >
         <fieldset className="form__set">
           <label className="form__field">

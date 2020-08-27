@@ -5,6 +5,11 @@ function AddPlacePopup(props) {
   const [title, setTitle] = React.useState('');
   const [link, setLink] = React.useState('');
 
+  React.useEffect(() => {
+    setTitle('');
+    setLink('');
+  }, [props.isOpen]);
+
   function handleChangeTitle(e) {
     setTitle(e.target.value);
   }
@@ -16,8 +21,6 @@ function AddPlacePopup(props) {
   function handleSubmit(e) {
     e.preventDefault();
     props.onAddPlace(title, link);
-    setTitle('');
-    setLink('');
   }
   return (
     <>
@@ -27,6 +30,7 @@ function AddPlacePopup(props) {
         isOpen={props.isOpen}
         onClose={props.onClose}
         handleSubmit={handleSubmit}
+        closeEscOverlay={props.closeEscOverlay}
       >
         <fieldset className="form__set">
           <label className="form__field">
